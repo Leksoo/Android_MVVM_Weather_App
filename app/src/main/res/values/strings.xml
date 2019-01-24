@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="menu_current_weather_fragment_title">Today</string>
+    <string name="menu_future_weather_fragment_title">7 Days</string>
+    <string name="menu_settings_fragment_title">Settings</string>
+    <string name="textView_loading">Loading</string>
+    <string name="current_weather_fragment_feels_like">Feels like</string>
+    <string name="current_weather_fragment_precipitation">Precipitation:</string>
+    <string name="current_weather_fragment_wind">Wind:</string>
+    <string name="current_weather_fragment_visibility">Visibility:</string>
+    <string name="temperature_metric_abbreviation">°C</string>
+    <string name="temperature_imperial_abbreviation">°F</string>
+    <string name="precipitation_metric_abbreviation">mm</string>
+    <string name="precipitation_imperial_abbreviation">in</string>
+    <string name="wind_speed_metric_abbreviation">kph</string>
+    <string name="wind_speed_imperial_abbreviation">mph</string>
+    <string name="visibility_metric_abbreviation">km</string>
+    <string name="visibility_imperial_abbreviation">mi.</string>
+    <string name="current_weather_fragment_today">Today</string>
+    <string name="preferences_title_weather_location">Weather Location</string>
+    <string name="preferences_title_use_location">Use device location</string>
+    <string name="preferences_summary_use_location">Allow the app to get your location</string>
+    <string name="preferences_title_custom_location">Location</string>
+    <string name="preferences_summary_custom_location">The location for which weather is displayed</string>
+    <string name="preferences_title_unit_system">Unit system</string>
+    <string name="settings_fragment_title">Settings</string>
+    <string name="future_list_weather_fragment_subtitle">Next week</string>
+</resources>
