@@ -1,3 +1,5 @@
 package com.blazeapps.weatherapp.data.network.response
 
-const val key = ""
+import com.blazeapps.weatherapp.BuildConfig
+
+val key = BuildConfig.API_KEY

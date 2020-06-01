@@ -7,6 +7,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -37,7 +38,9 @@ interface ApixuWeatherApiService {
         ): ApixuWeatherApiService {
             val requestInterceptor = Interceptor { chain ->
                 val url = chain.request().url().newBuilder()
-                    .addQueryParameter("access_key", key).build()
+                    .addQueryParameter("access_key",
+                        key
+                    ).build()
                 val request = chain.request().newBuilder().url(url).build()
                 return@Interceptor chain.proceed(request)
 
@@ -46,6 +49,9 @@ interface ApixuWeatherApiService {
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
                 .addInterceptor(connectivityInterceptor)
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
                 .build()
             return Retrofit.Builder().client(okHttpClient).baseUrl(BASE_URL)
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
