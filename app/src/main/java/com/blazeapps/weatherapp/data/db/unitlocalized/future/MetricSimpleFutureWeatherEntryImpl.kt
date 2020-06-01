@@ -8,8 +8,8 @@ data class MetricSimpleFutureWeatherEntry (
     override val date: LocalDate,
     @ColumnInfo(name = "avgtempC")
     override val avgTemperature: Double,
-    @ColumnInfo(name = "condition_text")
+    @ColumnInfo(name = "weather_description")
     override val conditionText: String,
-    @ColumnInfo(name = "condition_icon")
+    @ColumnInfo(name = "weather_icon")
     override val conditionIconUrl: String
 ) : UnitSpecificSimpleFutureWeatherEntry

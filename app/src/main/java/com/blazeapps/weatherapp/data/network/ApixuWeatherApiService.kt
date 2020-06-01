@@ -1,8 +1,14 @@
 package com.blazeapps.weatherapp.data.network
 
+import com.blazeapps.weatherapp.data.db.entity.Condition
+import com.blazeapps.weatherapp.data.db.entity.ConditionDeserializer
+import com.blazeapps.weatherapp.data.db.entity.CurrentWeatherEntry
+import com.blazeapps.weatherapp.data.db.entity.CurrentWeatherEntryDeserializer
 import com.blazeapps.weatherapp.data.network.response.CurrentWeatherResponse
 import com.blazeapps.weatherapp.data.network.response.FutureWeatherResponse
 import com.blazeapps.weatherapp.data.network.response.key
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -54,9 +60,14 @@ interface ApixuWeatherApiService {
                     level = HttpLoggingInterceptor.Level.BODY
                 })
                 .build()
+
+            val gson = GsonBuilder()
+                .registerTypeAdapter(CurrentWeatherEntry::class.java, CurrentWeatherEntryDeserializer())
+                .create()
+
             return Retrofit.Builder().client(okHttpClient).baseUrl(BASE_URL)
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build().create(ApixuWeatherApiService::class.java)
         }
     }

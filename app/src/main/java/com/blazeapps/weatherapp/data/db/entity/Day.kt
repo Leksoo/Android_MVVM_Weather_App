@@ -14,7 +14,7 @@ data class Day(
     val avgvisKm: Double,
     @SerializedName("avgvis_miles")
     val avgvisMiles: Double,
-    @Embedded(prefix = "condition_")
+    @Embedded(prefix = "weather_")
     val condition: Condition,
     @SerializedName("maxtemp_c")
     val maxtempC: Double,

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "future_weather", indices = [Index(value = ["date"], unique = true)])
 data class FutureWeatherEntry(
     @PrimaryKey(autoGenerate = true)
-    val id:Int? = null,
+    val id: Int? = null,
     val date: String,
     @Embedded
     val day: Day

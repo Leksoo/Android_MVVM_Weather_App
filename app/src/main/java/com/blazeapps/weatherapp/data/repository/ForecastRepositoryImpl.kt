@@ -1,11 +1,14 @@
 package com.blazeapps.weatherapp.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.blazeapps.weatherapp.data.db.CurrentWeatherDao
 import com.blazeapps.weatherapp.data.db.FutureWeatherDao
 import com.blazeapps.weatherapp.data.db.WeatherLocationDao
 import com.blazeapps.weatherapp.data.db.entity.WeatherLocation
+import com.blazeapps.weatherapp.data.db.unitlocalized.current.MetricCurrentWeatherEntry
 import com.blazeapps.weatherapp.data.db.unitlocalized.current.UnitSpecificCurrentWeatherEntry
+import com.blazeapps.weatherapp.data.db.unitlocalized.current.toImperial
 import com.blazeapps.weatherapp.data.db.unitlocalized.future.UnitSpecificSimpleFutureWeatherEntry
 import com.blazeapps.weatherapp.data.network.FORECAST_DAYS_COUNT
 import com.blazeapps.weatherapp.data.network.WeatherNetworkDataSource
@@ -43,8 +46,12 @@ class ForecastRepositoryImpl(
     override suspend fun getCurrentWeather(metric: Boolean): LiveData<out UnitSpecificCurrentWeatherEntry> {
         return withContext(Dispatchers.IO) {
             initWeatherData()
-            return@withContext if (metric) currentWeatherDao.getWeatherMetric()
-            else currentWeatherDao.getWeatherImperial()
+            val weatherMetric = currentWeatherDao.getWeatherMetric()
+            return@withContext if (metric) {
+                weatherMetric
+            } else {
+                Transformations.map(weatherMetric, MetricCurrentWeatherEntry::toImperial)
+            }
         }
     }
 
@@ -75,12 +82,12 @@ class ForecastRepositoryImpl(
             futureWeatherDao.deleteOldEntries(today)
         }
 
-        GlobalScope.launch(Dispatchers.IO) {
-            deleteOldForecastData()
-            val futureWeatherList = fetchedWeather.futureWeatherEntries.entries
-            futureWeatherDao.insert(futureWeatherList)
-            weatherLocationDao.upsert(fetchedWeather.location)
-        }
+//        GlobalScope.launch(Dispatchers.IO) {
+//            deleteOldForecastData()
+//            val futureWeatherList = fetchedWeather.futureWeatherEntries.entries
+//            futureWeatherDao.insert(futureWeatherList)
+//            weatherLocationDao.upsert(fetchedWeather.location)
+//        }
 
     }
 
