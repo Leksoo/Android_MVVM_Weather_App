@@ -21,14 +21,14 @@ interface ApixuWeatherApiService {
 
     @GET("current")
     fun getCurrentWeather(
-        @Query("q") location: String,
+        @Query("query") location: String,
         @Query("lang") languageCode: String = "en"
     ): Deferred<CurrentWeatherResponse>
 
     @GET("forecast")
     fun getFutureWeather(
-        @Query("q") location: String,
-        @Query("days") days:Int,
+        @Query("query") location: String,
+        @Query("days") days: Int,
         @Query("lang") languageCode: String = "en"
     ): Deferred<FutureWeatherResponse>
 
@@ -38,10 +38,11 @@ interface ApixuWeatherApiService {
         ): ApixuWeatherApiService {
             val requestInterceptor = Interceptor { chain ->
                 val url = chain.request().url().newBuilder()
-                    .addQueryParameter("access_key",
-                        key
-                    ).build()
-                val request = chain.request().newBuilder().url(url).build()
+                    .addQueryParameter("access_key", key)
+                    .build()
+                val request = chain.request().newBuilder()
+                    .url(url)
+                    .build()
                 return@Interceptor chain.proceed(request)
 
             }
